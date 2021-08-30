@@ -1,32 +1,23 @@
 package org.clusus.bloomberg.model;
 
-import java.util.Date;
-import java.util.UUID;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.annotations.GenericGenerator;
+import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.Builder;
-import lombok.Data;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.util.Date;
 
 @Data
-@Builder
+@Entity
+@Table(name = "demo")
+@ToString
 public class RequestDemoEntity {
 
 	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(columnDefinition = "CHAR(20)")
-	private UUID id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
@@ -34,18 +25,57 @@ public class RequestDemoEntity {
 	@CreatedDate
 	private Date createdDate;
 
-	@NotEmpty
+	@NotNull
 	@Column(nullable = false)
 	private double amount;
 
-	@Max(3)
-	@NotEmpty
+	@Size(max = 3)
+	@NotBlank
 	@Column(nullable = false)
 	private String fromCurrency;
 
-	@Max(3)
+	@Size(max = 3)
 	@NotEmpty
 	@Column(nullable = false)
 	private String toCurrency;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public String getFromCurrency() {
+		return fromCurrency;
+	}
+
+	public void setFromCurrency(String fromCurrency) {
+		this.fromCurrency = fromCurrency;
+	}
+
+	public String getToCurrency() {
+		return toCurrency;
+	}
+
+	public void setToCurrency(String toCurrency) {
+		this.toCurrency = toCurrency;
+	}
 }
